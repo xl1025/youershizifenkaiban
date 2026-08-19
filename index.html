@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>汉字探索乐园 · 识字卡片</title>
+<link rel="icon" href="data:,">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+    background: linear-gradient(135deg, #fef6e4 0%, #e8f3ff 50%, #f3e8ff 100%);
+    color: #3a3a5a;
+    -webkit-tap-highlight-color: transparent;
+  }
+  header { text-align: center; margin-bottom: clamp(20px, 4vh, 48px); }
+  header h1 { font-size: clamp(26px, 6vw, 44px); letter-spacing: 2px; }
+  header p { margin-top: 10px; font-size: clamp(14px, 3.4vw, 18px); color: #6b6b8a; }
+  .entries {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 3vw, 32px);
+    width: min(960px, 92vw);
+  }
+  @media (max-width: 680px) { .entries { grid-template-columns: 1fr; } }
+  .entry {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    border-radius: 22px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(80, 80, 140, .18);
+    transition: transform .25s ease, box-shadow .25s ease;
+    aspect-ratio: 4 / 3;
+  }
+  .entry:hover, .entry:focus-visible {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 18px 40px rgba(80, 80, 140, .28);
+    outline: none;
+  }
+  .entry img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .entry .label {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 14px 16px;
+    font-size: clamp(16px, 3vw, 22px);
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(transparent, rgba(0, 0, 0, .55));
+    text-shadow: 0 1px 4px rgba(0, 0, 0, .5);
+  }
+  footer { margin-top: clamp(20px, 4vh, 40px); font-size: 13px; color: #9a9ab5; text-align: center; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>🌟 汉字探索乐园</h1>
+    <p>选择一个世界，开启有趣的识字之旅</p>
+  </header>
+  <main class="entries">
+    <a class="entry" href="nature.html" aria-label="自然元素探索之旅">
+      <img src="背景1.jpg" alt="自然元素探索" decoding="async">
+      <span class="label">🌿 自然元素探索之旅</span>
+    </a>
+    <a class="entry" href="zoo.html" aria-label="动物王国探索之旅">
+      <img src="背景图2.jpg" alt="动物王国探索" decoding="async">
+      <span class="label">🦁 动物王国探索之旅</span>
+    </a>
+  </main>
+  <footer>轻点卡片进入对应情境 · 适配平板与手机</footer>
+</body>
+</html>

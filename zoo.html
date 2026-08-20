@@ -476,6 +476,7 @@
         .tb-trace   { background: linear-gradient(135deg, #7986cb 0%, #3f51b5 100%); }
         .tb-quiz    { background: linear-gradient(135deg, #ab47bc 0%, #8e24aa 100%); }
         .tb-replay  { background: linear-gradient(135deg, #26c6da 0%, #00acc1 100%); }
+        .tb-reset   { background: linear-gradient(135deg, #78909c 0%, #546e7a 100%); }
 
         /* 顶部小喇叭按钮（拼音 / 英语 拼读入口，置于拼音 / 单词之后） */
         .spk-btn {
@@ -1188,6 +1189,7 @@
                             <button id="btn-animate" class="tb-btn tb-animate">▶ 笔顺动画</button>
                             <button id="btn-trace-guide" class="tb-btn tb-trace-guide">📝 描红讲解</button>
                             <button id="btn-trace" class="tb-btn tb-trace">✍️ 描红练习</button>
+                            <button id="btn-reset" class="tb-btn tb-reset">🔄 重置</button>
                         </div>
 
                         <!-- 田字格 + 笔画名称（课本式） -->
@@ -1205,17 +1207,8 @@
                             </div>
                         </div>
 
-                        <!-- 描写练习 · 鼓励引导弹窗（点击「描红练习」后弹出，含鼓励性语言） -->
-                        <div class="trace-guide-pop" id="traceGuidePop">
-                            <div class="tgp-card">
-                                <div class="tgp-emoji">🌟</div>
-                                <div class="tgp-text" id="tgpText"></div>
-                                <button class="tgp-btn" id="tgpStart">开始练习 ✍️</button>
-                            </div>
-                        </div>
-
                         <!-- 操作步骤说明：移至背面最下方 -->
-                        <div class="trace-tip">先点「描红讲解」看写法，再点「描红练习」用蓝笔描红；写完后蓝色笔迹会一直保留，直到点其它按钮～</div>
+                        <div class="trace-tip">点「描红练习」直接用蓝笔描红，写错可点「🔄 重置」重新开始～</div>
                     </div>
                 </div>
             </div>
@@ -1235,53 +1228,53 @@
     //          radical 部首 | strokes 笔画数 | structure 字形结构 | sentence 造句示例 | strokesName 笔画名称(按笔顺)
     const literacyData = [
         // 第一排：天文气象
-        { id: "ri",   char: "日", pinyin: "rì",   english: "SUN",       words: ["日出", "节日"], meaning: "太阳给我们带来光明和温暖，每天东升西落。", radical: "日", strokes: 4,  structure: "独体字",   sentence: "早晨，红红的太阳从东方升起。", strokesName: ["竖","横折","横","横"], image: "日.mp4", col: 0, row: 0 },
-        { id: "yue",  char: "月", pinyin: "yuè",  english: "MOON",      words: ["月亮", "明月"], meaning: "月亮是地球的卫星，晚上会发出柔和的光。", radical: "月", strokes: 4,  structure: "独体字",   sentence: "十五的月亮又圆又亮。", strokesName: ["撇","横折钩","横","横"], image: "月.mp4", col: 1, row: 0 },
-        { id: "xing", char: "星", pinyin: "xīng", english: "STAR",      words: ["星星", "星空"], meaning: "星星是夜空中闪闪发光的天体，数量非常多。", radical: "日", strokes: 9,  structure: "上下结构", sentence: "夜空中闪烁着无数颗小星星。", strokesName: ["竖","横折","横","横","撇","横","横","竖","横"], image: "星.mp4", col: 2, row: 0 },
-        { id: "yun",  char: "云", pinyin: "yún",  english: "CLOUD",     words: ["白云", "云朵"], meaning: "云是天空中的水汽凝结成的白色漂浮物。", radical: "二", strokes: 4,  structure: "独体字",   sentence: "天空中飘着一朵朵白云。", strokesName: ["横","横","撇折","点"], image: "云.mp4", col: 3, row: 0 },
-        { id: "feng1",char: "风", pinyin: "fēng", english: "WIND",      words: ["大风", "风车"], meaning: "风是空气流动形成的，可以吹动树叶和风车。", radical: "风", strokes: 4,  structure: "半包围结构", sentence: "春风轻轻地吹过柳枝。", strokesName: ["撇","横折弯钩","撇","点"], image: "风.mp4", col: 4, row: 0 },
+        { id: "ri",   char: "日", pinyin: "rì",   english: "SUN",       words: ["日出", "节日"], meaning: "太阳给我们带来光明和温暖，每天东升西落。", radical: "日", strokes: 4,  structure: "独体字",   sentence: "早晨，红红的太阳从东方升起。", strokesName: ["竖","横折","横","横"], image: "日.mp4", poster: "日.png", col: 0, row: 0 },
+        { id: "yue",  char: "月", pinyin: "yuè",  english: "MOON",      words: ["月亮", "明月"], meaning: "月亮是地球的卫星，晚上会发出柔和的光。", radical: "月", strokes: 4,  structure: "独体字",   sentence: "十五的月亮又圆又亮。", strokesName: ["撇","横折钩","横","横"], image: "月.mp4", poster: "月.png", col: 1, row: 0 },
+        { id: "xing", char: "星", pinyin: "xīng", english: "STAR",      words: ["星星", "星空"], meaning: "星星是夜空中闪闪发光的天体，数量非常多。", radical: "日", strokes: 9,  structure: "上下结构", sentence: "夜空中闪烁着无数颗小星星。", strokesName: ["竖","横折","横","横","撇","横","横","竖","横"], image: "星.mp4", poster: "星.png", col: 2, row: 0 },
+        { id: "yun",  char: "云", pinyin: "yún",  english: "CLOUD",     words: ["白云", "云朵"], meaning: "云是天空中的水汽凝结成的白色漂浮物。", radical: "二", strokes: 4,  structure: "独体字",   sentence: "天空中飘着一朵朵白云。", strokesName: ["横","横","撇折","点"], image: "云.mp4", poster: "云.png", col: 3, row: 0 },
+        { id: "feng1",char: "风", pinyin: "fēng", english: "WIND",      words: ["大风", "风车"], meaning: "风是空气流动形成的，可以吹动树叶和风车。", radical: "风", strokes: 4,  structure: "半包围结构", sentence: "春风轻轻地吹过柳枝。", strokesName: ["撇","横折弯钩","撇","点"], image: "风.mp4", poster: "风.png", col: 4, row: 0 },
 
         // 第二排：自然现象
-        { id: "bing", char: "冰", pinyin: "bīng", english: "ICE",       words: ["冰雪", "结冰"], meaning: "冰是水在很冷的时候结成的固体，摸起来凉凉的、滑滑的。冬天湖面会结冰。", radical: "冫", strokes: 6,  structure: "左右结构",   sentence: "冬天，河面上结了一层薄薄的冰。", strokesName: ["点","提","竖钩","横撇","撇","捺"], image: "冰.mp4", col: 0, row: 1 },
-        { id: "yu",   char: "雨", pinyin: "yǔ",   english: "RAIN",      words: ["下雨", "雨水"], meaning: "雨是从云中降落的水滴，能滋润花草树木。", radical: "雨", strokes: 8,  structure: "独体字",   sentence: "下雨了，小动物们都躲回了家。", strokesName: ["横","竖","横折钩","竖","点","点","点","点"], image: "雨.mp4", col: 1, row: 1 },
-        { id: "xue",  char: "雪", pinyin: "xuě",  english: "SNOW",      words: ["下雪", "雪人"], meaning: "雪是天气寒冷时从天上飘下来的白色雪花。", radical: "雨", strokes: 11, structure: "上下结构", sentence: "冬天到了，天上飘起了雪花。", strokesName: ["横","竖","横折钩","竖","点","点","点","点","横折","横","横"], image: "雪.mp4", col: 2, row: 1 },
-        { id: "shan", char: "山", pinyin: "shān", english: "MOUNTAIN",  words: ["高山", "爬山"], meaning: "山是地面隆起的高地，山上有很多植物和动物。", radical: "山", strokes: 3,  structure: "独体字",   sentence: "远处的高山上覆盖着白雪。", strokesName: ["竖","竖折","竖"], image: "山.mp4", col: 3, row: 1 },
-        { id: "shi",  char: "石", pinyin: "shí",  english: "ROCK",      words: ["石头", "岩石"], meaning: "石头是坚硬的矿物，有的圆圆的，有的尖尖的。", radical: "石", strokes: 5,  structure: "独体字",   sentence: "溪水里的石头被冲刷得圆圆的。", strokesName: ["横","撇","竖","横折","横"], image: "石.mp4", col: 4, row: 1 },
+        { id: "bing", char: "冰", pinyin: "bīng", english: "ICE",       words: ["冰雪", "结冰"], meaning: "冰是水在很冷的时候结成的固体，摸起来凉凉的、滑滑的。冬天湖面会结冰。", radical: "冫", strokes: 6,  structure: "左右结构",   sentence: "冬天，河面上结了一层薄薄的冰。", strokesName: ["点","提","竖钩","横撇","撇","捺"], image: "冰.mp4", poster: "冰.png", col: 0, row: 1 },
+        { id: "yu",   char: "雨", pinyin: "yǔ",   english: "RAIN",      words: ["下雨", "雨水"], meaning: "雨是从云中降落的水滴，能滋润花草树木。", radical: "雨", strokes: 8,  structure: "独体字",   sentence: "下雨了，小动物们都躲回了家。", strokesName: ["横","竖","横折钩","竖","点","点","点","点"], image: "雨.mp4", poster: "雨.png", col: 1, row: 1 },
+        { id: "xue",  char: "雪", pinyin: "xuě",  english: "SNOW",      words: ["下雪", "雪人"], meaning: "雪是天气寒冷时从天上飘下来的白色雪花。", radical: "雨", strokes: 11, structure: "上下结构", sentence: "冬天到了，天上飘起了雪花。", strokesName: ["横","竖","横折钩","竖","点","点","点","点","横折","横","横"], image: "雪.mp4", poster: "雪.png", col: 2, row: 1 },
+        { id: "shan", char: "山", pinyin: "shān", english: "MOUNTAIN",  words: ["高山", "爬山"], meaning: "山是地面隆起的高地，山上有很多植物和动物。", radical: "山", strokes: 3,  structure: "独体字",   sentence: "远处的高山上覆盖着白雪。", strokesName: ["竖","竖折","竖"], image: "山.mp4", poster: "山.png", col: 3, row: 1 },
+        { id: "shi",  char: "石", pinyin: "shí",  english: "ROCK",      words: ["石头", "岩石"], meaning: "石头是坚硬的矿物，有的圆圆的，有的尖尖的。", radical: "石", strokes: 5,  structure: "独体字",   sentence: "溪水里的石头被冲刷得圆圆的。", strokesName: ["横","撇","竖","横折","横"], image: "石.mp4", poster: "石.png", col: 4, row: 1 },
 
         // 第三排：地理元素
-        { id: "shui", char: "水", pinyin: "shuǐ", english: "WATER",     words: ["喝水", "河水"], meaning: "水是生命之源，我们每天都需要喝干净的水。", radical: "水", strokes: 4,  structure: "独体字",   sentence: "河水清澈，小鱼在水中游来游去。", strokesName: ["竖钩","横撇","撇","捺"], image: "水.mp4", col: 0, row: 2 },
-        { id: "huo",  char: "火", pinyin: "huǒ",  english: "FIRE",      words: ["大火", "篝火"], meaning: "火可以取暖、做饭，但小朋友要远离火源哦！", radical: "火", strokes: 4,  structure: "独体字",   sentence: "篝火温暖了露营的夜晚。", strokesName: ["点","撇","撇","捺"], image: "火.mp4", col: 1, row: 2 },
-        { id: "tu",   char: "土", pinyin: "tǔ",   english: "EARTH",     words: ["泥土", "土地"], meaning: "泥土是大地的皮肤，花草树木都生长在土里。", radical: "土", strokes: 3,  structure: "独体字",   sentence: "泥土里钻出了一棵嫩绿的小芽。", strokesName: ["横","竖","横"], image: "土.mp4", col: 2, row: 2 },
-        { id: "sha",  char: "沙", pinyin: "shā",  english: "SAND",      words: ["沙子", "沙漠"], meaning: "沙子是细小的石粒，沙滩上有好多好玩的沙子。", radical: "氵", strokes: 7,  structure: "左右结构", sentence: "沙滩上留下了一串小脚印。", strokesName: ["点","点","提","竖","撇","点","撇"], image: "沙.mp4", col: 3, row: 2 },
-        { id: "di",   char: "地", pinyin: "dì",   english: "LAND",      words: ["地球", "草地"], meaning: "大地是我们脚下踩着的土地，也是我们的家园。", radical: "土", strokes: 6,  structure: "左右结构", sentence: "草地上开满了五颜六色的小花。", strokesName: ["横","竖","提","横折钩","竖","竖弯钩"], image: "地.mp4", col: 4, row: 2 }
+        { id: "shui", char: "水", pinyin: "shuǐ", english: "WATER",     words: ["喝水", "河水"], meaning: "水是生命之源，我们每天都需要喝干净的水。", radical: "水", strokes: 4,  structure: "独体字",   sentence: "河水清澈，小鱼在水中游来游去。", strokesName: ["竖钩","横撇","撇","捺"], image: "水.mp4", poster: "水.png", col: 0, row: 2 },
+        { id: "huo",  char: "火", pinyin: "huǒ",  english: "FIRE",      words: ["大火", "篝火"], meaning: "火可以取暖、做饭，但小朋友要远离火源哦！", radical: "火", strokes: 4,  structure: "独体字",   sentence: "篝火温暖了露营的夜晚。", strokesName: ["点","撇","撇","捺"], image: "火.mp4", poster: "火.png", col: 1, row: 2 },
+        { id: "tu",   char: "土", pinyin: "tǔ",   english: "EARTH",     words: ["泥土", "土地"], meaning: "泥土是大地的皮肤，花草树木都生长在土里。", radical: "土", strokes: 3,  structure: "独体字",   sentence: "泥土里钻出了一棵嫩绿的小芽。", strokesName: ["横","竖","横"], image: "土.mp4", poster: "土.png", col: 2, row: 2 },
+        { id: "sha",  char: "沙", pinyin: "shā",  english: "SAND",      words: ["沙子", "沙漠"], meaning: "沙子是细小的石粒，沙滩上有好多好玩的沙子。", radical: "氵", strokes: 7,  structure: "左右结构", sentence: "沙滩上留下了一串小脚印。", strokesName: ["点","点","提","竖","撇","点","撇"], image: "沙.mp4", poster: "沙.png", col: 3, row: 2 },
+        { id: "di",   char: "地", pinyin: "dì",   english: "LAND",      words: ["地球", "草地"], meaning: "大地是我们脚下踩着的土地，也是我们的家园。", radical: "土", strokes: 6,  structure: "左右结构", sentence: "草地上开满了五颜六色的小花。", strokesName: ["横","竖","提","横折钩","竖","竖弯钩"], image: "地.mp4", poster: "地.png", col: 4, row: 2 }
     ];
 
     // ========== 动物园识字数据（动物王国，资源位于项目根目录） ==========
     // 字段结构与 literacyData 完全一致，复用全部交互逻辑
     const zooData = [
         // 第一排：十二生肖前六
-        { id: "shu",   char: "鼠", pinyin: "shǔ",  english: "RAT",       words: ["老鼠", "田鼠"], meaning: "鼠是一种小巧灵活的哺乳动物，门牙会不断生长，所以需要经常磨牙。", radical: "鼠", strokes: 13, structure: "独体字", sentence: "小老鼠偷偷从洞里钻出来找食物吃。", strokesName: ["撇","竖","横","横折","横","横","竖提","点","点","竖提","点","点","斜钩"], image: "鼠.mp4", col: 0, row: 0 },
-        { id: "niu",  char: "牛", pinyin: "niú",  english: "OX",        words: ["黄牛", "奶牛"], meaning: "牛是勤劳的动物，能帮农民耕田拉车，还给我们提供牛奶。", radical: "牛", strokes: 4,  structure: "独体字", sentence: "老牛在河边悠闲地吃着青草。", strokesName: ["撇","横","横","竖"], image: "牛.mp4", col: 1, row: 0 },
-        { id: "hu",   char: "虎", pinyin: "hǔ",   english: "TIGER",     words: ["老虎", "猛虎"], meaning: "虎是森林之王，身上有漂亮的条纹，非常威武强壮。", radical: "虍", strokes: 8,  structure: "半包围结构", sentence: "大老虎在山林里大声吼叫。", strokesName: ["竖","横","横撇","撇","横","竖弯钩","撇","横折弯钩"], image: "虎.mp4", col: 2, row: 0 },
-        { id: "tu",   char: "兔", pinyin: "tù",   english: "RABBIT",    words: ["兔子", "白兔"], meaning: "兔有长长的耳朵和短尾巴，喜欢蹦蹦跳跳地吃胡萝卜。", radical: "刀", strokes: 8,  structure: "上下结构", sentence: "小白兔在草地上快乐地跳来跳去。", strokesName: ["撇","横撇","竖","横折","横","撇","竖弯钩","点"], image: "兔.mp4", col: 3, row: 0 },
-        { id: "long", char: "龙", pinyin: "lóng", english: "DRAGON",    words: ["巨龙", "龙船"], meaning: "龙是中国神话中的神兽，象征着力量、吉祥和好运。", radical: "龙", strokes: 5,  structure: "独体字", sentence: "端午节大家划着龙船在河上比赛。", strokesName: ["横","撇","竖弯钩","撇","点"], image: "龙.mp4", col: 4, row: 0 },
-        { id: "she",  char: "蛇", pinyin: "shé",  english: "SNAKE",     words: ["毒蛇", "蟒蛇"], meaning: "蛇没有脚，靠身体蜿蜒爬行，每年都会蜕一次皮长出新皮。", radical: "虫", strokes: 11, structure: "左右结构", sentence: "小蛇在草丛中悄悄地爬行。", strokesName: ["竖","横折","横","竖","横","点","点","点","横撇","撇","竖弯钩"], image: "蛇.mp4", col: 5, row: 0 },
+        { id: "shu",   char: "鼠", pinyin: "shǔ",  english: "RAT",       words: ["老鼠", "田鼠"], meaning: "鼠是一种小巧灵活的哺乳动物，门牙会不断生长，所以需要经常磨牙。", radical: "鼠", strokes: 13, structure: "独体字", sentence: "小老鼠偷偷从洞里钻出来找食物吃。", strokesName: ["撇","竖","横","横折","横","横","竖提","点","点","竖提","点","点","斜钩"], image: "鼠.mp4", poster: "鼠.jpg", col: 0, row: 0 },
+        { id: "niu",  char: "牛", pinyin: "niú",  english: "OX",        words: ["黄牛", "奶牛"], meaning: "牛是勤劳的动物，能帮农民耕田拉车，还给我们提供牛奶。", radical: "牛", strokes: 4,  structure: "独体字", sentence: "老牛在河边悠闲地吃着青草。", strokesName: ["撇","横","横","竖"], image: "牛.mp4", poster: "牛.jpg", col: 1, row: 0 },
+        { id: "hu",   char: "虎", pinyin: "hǔ",   english: "TIGER",     words: ["老虎", "猛虎"], meaning: "虎是森林之王，身上有漂亮的条纹，非常威武强壮。", radical: "虍", strokes: 8,  structure: "半包围结构", sentence: "大老虎在山林里大声吼叫。", strokesName: ["竖","横","横撇","撇","横","竖弯钩","撇","横折弯钩"], image: "虎.mp4", poster: "虎.jpg", col: 2, row: 0 },
+        { id: "tu",   char: "兔", pinyin: "tù",   english: "RABBIT",    words: ["兔子", "白兔"], meaning: "兔有长长的耳朵和短尾巴，喜欢蹦蹦跳跳地吃胡萝卜。", radical: "刀", strokes: 8,  structure: "上下结构", sentence: "小白兔在草地上快乐地跳来跳去。", strokesName: ["撇","横撇","竖","横折","横","撇","竖弯钩","点"], image: "兔.mp4", poster: "兔.jpg", col: 3, row: 0 },
+        { id: "long", char: "龙", pinyin: "lóng", english: "DRAGON",    words: ["巨龙", "龙船"], meaning: "龙是中国神话中的神兽，象征着力量、吉祥和好运。", radical: "龙", strokes: 5,  structure: "独体字", sentence: "端午节大家划着龙船在河上比赛。", strokesName: ["横","撇","竖弯钩","撇","点"], image: "龙.mp4", poster: "龙.jpg", col: 4, row: 0 },
+        { id: "she",  char: "蛇", pinyin: "shé",  english: "SNAKE",     words: ["毒蛇", "蟒蛇"], meaning: "蛇没有脚，靠身体蜿蜒爬行，每年都会蜕一次皮长出新皮。", radical: "虫", strokes: 11, structure: "左右结构", sentence: "小蛇在草丛中悄悄地爬行。", strokesName: ["竖","横折","横","竖","横","点","点","点","横撇","撇","竖弯钩"], image: "蛇.mp4", poster: "蛇.jpg", col: 5, row: 0 },
 
         // 第二排：十二生肖后六
-        { id: "ma",   char: "马", pinyin: "mǎ",   english: "HORSE",     words: ["小马", "骏马"], meaning: "马跑得很快，古代时是重要的交通工具和作战坐骑。", radical: "马", strokes: 3,  structure: "独体字", sentence: "小马在草原上自由自在地奔跑。", strokesName: ["横折","竖折折钩","横"], image: "马.mp4", col: 0, row: 1 },
-        { id: "yang", char: "羊", pinyin: "yáng", english: "SHEEP",     words: ["绵羊", "山羊"], meaning: "羊性情温顺，身上的毛可以做成温暖的毛衣和毯子。", radical: "羊", strokes: 6,  structure: "独体字", sentence: "小羊在山坡上咩咩地叫着吃草。", strokesName: ["点","撇","横","横","横","竖"], image: "羊.mp4", col: 1, row: 1 },
-        { id: "hou",  char: "猴", pinyin: "hóu",  english: "MONKEY",    words: ["猴子", "猿猴"], meaning: "猴聪明又灵巧，喜欢在树上跳来跳去，最爱吃桃子和香蕉。", radical: "犭", strokes: 12, structure: "左右结构", sentence: "小猴子在树上荡秋千玩得真开心。", strokesName: ["撇","弯钩","撇","撇","竖","横折","横","撇","横","横","撇","捺"], image: "猴.mp4", col: 2, row: 1 },
-        { id: "ji",   char: "鸡", pinyin: "jī",   english: "ROOSTER",   words: ["公鸡", "母鸡"], meaning: "鸡每天早上打鸣叫人们起床，还会下蛋给我们吃。", radical: "又", strokes: 7,  structure: "左右结构", sentence: "大公鸡站在墙头上喔喔地打鸣。", strokesName: ["横撇","点","撇","横折钩","点","竖折折钩","横"], image: "鸡.mp4", col: 3, row: 1 },
-        { id: "gou",  char: "狗", pinyin: "gǒu",  english: "DOG",       words: ["小狗", "花狗"], meaning: "狗是人类最忠诚的朋友，会看家护院、帮助警察抓坏人。", radical: "犭", strokes: 8,  structure: "左右结构", sentence: "小狗看见主人回家高兴地摇尾巴。", strokesName: ["撇","弯钩","撇","撇","横折钩","竖","横折","横"], image: "狗.mp4", col: 4, row: 1 },
-        { id: "zhu",  char: "猪", pinyin: "zhū",  english: "PIG",       words: ["小猪", "野猪"], meaning: "猪胖乎乎的，鼻子大大的，爱睡觉也爱吃东西。", radical: "犭", strokes: 11, structure: "左右结构", sentence: "小猪在泥坑里滚来滚去玩得开心。", strokesName: ["撇","弯钩","撇","横","竖","横","撇","竖","横折","横","横"], image: "猪.mp4", col: 5, row: 1 },
+        { id: "ma",   char: "马", pinyin: "mǎ",   english: "HORSE",     words: ["小马", "骏马"], meaning: "马跑得很快，古代时是重要的交通工具和作战坐骑。", radical: "马", strokes: 3,  structure: "独体字", sentence: "小马在草原上自由自在地奔跑。", strokesName: ["横折","竖折折钩","横"], image: "马.mp4", poster: "马.jpg", col: 0, row: 1 },
+        { id: "yang", char: "羊", pinyin: "yáng", english: "SHEEP",     words: ["绵羊", "山羊"], meaning: "羊性情温顺，身上的毛可以做成温暖的毛衣和毯子。", radical: "羊", strokes: 6,  structure: "独体字", sentence: "小羊在山坡上咩咩地叫着吃草。", strokesName: ["点","撇","横","横","横","竖"], image: "羊.mp4", poster: "羊.jpg", col: 1, row: 1 },
+        { id: "hou",  char: "猴", pinyin: "hóu",  english: "MONKEY",    words: ["猴子", "猿猴"], meaning: "猴聪明又灵巧，喜欢在树上跳来跳去，最爱吃桃子和香蕉。", radical: "犭", strokes: 12, structure: "左右结构", sentence: "小猴子在树上荡秋千玩得真开心。", strokesName: ["撇","弯钩","撇","撇","竖","横折","横","撇","横","横","撇","捺"], image: "猴.mp4", poster: "猴.jpg", col: 2, row: 1 },
+        { id: "ji",   char: "鸡", pinyin: "jī",   english: "ROOSTER",   words: ["公鸡", "母鸡"], meaning: "鸡每天早上打鸣叫人们起床，还会下蛋给我们吃。", radical: "又", strokes: 7,  structure: "左右结构", sentence: "大公鸡站在墙头上喔喔地打鸣。", strokesName: ["横撇","点","撇","横折钩","点","竖折折钩","横"], image: "鸡.mp4", poster: "鸡.jpg", col: 3, row: 1 },
+        { id: "gou",  char: "狗", pinyin: "gǒu",  english: "DOG",       words: ["小狗", "花狗"], meaning: "狗是人类最忠诚的朋友，会看家护院、帮助警察抓坏人。", radical: "犭", strokes: 8,  structure: "左右结构", sentence: "小狗看见主人回家高兴地摇尾巴。", strokesName: ["撇","弯钩","撇","撇","横折钩","竖","横折","横"], image: "狗.mp4", poster: "狗.jpg", col: 4, row: 1 },
+        { id: "zhu",  char: "猪", pinyin: "zhū",  english: "PIG",       words: ["小猪", "野猪"], meaning: "猪胖乎乎的，鼻子大大的，爱睡觉也爱吃东西。", radical: "犭", strokes: 11, structure: "左右结构", sentence: "小猪在泥坑里滚来滚去玩得开心。", strokesName: ["撇","弯钩","撇","横","竖","横","撇","竖","横折","横","横"], image: "猪.mp4", poster: "猪.jpg", col: 5, row: 1 },
 
         // 第三排：更多动物朋友
-        { id: "mao",  char: "猫", pinyin: "māo",  english: "CAT",       words: ["小猫", "花猫"], meaning: "猫眼睛亮亮的，晚上也能看清东西，最喜欢捉老鼠和睡懒觉。", radical: "犭", strokes: 11, structure: "左右结构", sentence: "小花猫趴在窗台上晒太阳。", strokesName: ["撇","弯钩","撇","横","竖","竖","竖","横折","横","竖","横"], image: "猫.mp4", col: 0, row: 2 },
-        { id: "xiang",char: "象",pinyin: "xiàng",english: "ELEPHANT",  words: ["大象", "象牙"], meaning: "象是世界上最大的陆地动物，长长的鼻子能卷起很重的东西。", radical: "⺤", strokes: 11, structure: "独体字", sentence: "大象用长长的鼻子喷水洗澡。", strokesName: ["撇","横撇","竖","横折","横","撇","弯钩","撇","撇","撇","捺"], image: "象.mp4", col: 1, row: 2 },
-        { id: "xiong",char: "熊",pinyin: "xióng",english: "BEAR",      words: ["黑熊", "熊猫"], meaning: "熊力气很大，冬天要冬眠，喜欢吃蜂蜜和鱼。", radical: "灬", strokes: 14, structure: "上下结构", sentence: "大熊在森林里寻找蜂蜜吃。", strokesName: ["撇折","点","竖","横折钩","横","横","撇","竖弯钩","撇","竖弯钩","点","点","点","点"], image: "熊.mp4", col: 2, row: 2 },
-        { id: "shi2", char: "狮",pinyin: "shī",  english: "LION",      words: ["狮子", "雄狮"], meaning: "狮是草原之王，雄狮有威风凛凛的鬃毛，吼声能传很远。", radical: "犭", strokes: 9,  structure: "左右结构", sentence: "雄狮站在岩石上守护着它的领地。", strokesName: ["撇","弯钩","撇","竖","撇","横","竖","横折钩","竖"], image: "狮.mp4", col: 3, row: 2 },
-        { id: "niao", char: "鸟",pinyin: "niǎo",  english: "BIRD",      words: ["小鸟", "飞鸟"], meaning: "鸟有羽毛和翅膀，能在天空中自由飞翔，唱出动听的歌。", radical: "鸟", strokes: 5,  structure: "独体字", sentence: "小鸟在树枝上叽叽喳喳地唱歌。", strokesName: ["撇","横折钩","点","竖折折钩","横"], image: "鸟.mp4", col: 4, row: 2 },
-        { id: "yu2",  char: "鱼",pinyin: "yú",   english: "FISH",       words: ["小鱼", "金鱼"], meaning: "鱼生活在水里，用鳃呼吸，用鳍游泳，摆动尾巴前进。", radical: "鱼", strokes: 8,  structure: "独体字", sentence: "小鱼在清澈的河水里游来游去。", strokesName: ["撇","横撇","竖","横折","横","竖","横","横"], image: "鱼.mp4", col: 5, row: 2 }
+        { id: "mao",  char: "猫", pinyin: "māo",  english: "CAT",       words: ["小猫", "花猫"], meaning: "猫眼睛亮亮的，晚上也能看清东西，最喜欢捉老鼠和睡懒觉。", radical: "犭", strokes: 11, structure: "左右结构", sentence: "小花猫趴在窗台上晒太阳。", strokesName: ["撇","弯钩","撇","横","竖","竖","竖","横折","横","竖","横"], image: "猫.mp4", poster: "猫.jpg", col: 0, row: 2 },
+        { id: "xiang",char: "象",pinyin: "xiàng",english: "ELEPHANT",  words: ["大象", "象牙"], meaning: "象是世界上最大的陆地动物，长长的鼻子能卷起很重的东西。", radical: "⺤", strokes: 11, structure: "独体字", sentence: "大象用长长的鼻子喷水洗澡。", strokesName: ["撇","横撇","竖","横折","横","撇","弯钩","撇","撇","撇","捺"], image: "象.mp4", poster: "象.jpg", col: 1, row: 2 },
+        { id: "xiong",char: "熊",pinyin: "xióng",english: "BEAR",      words: ["黑熊", "熊猫"], meaning: "熊力气很大，冬天要冬眠，喜欢吃蜂蜜和鱼。", radical: "灬", strokes: 14, structure: "上下结构", sentence: "大熊在森林里寻找蜂蜜吃。", strokesName: ["撇折","点","竖","横折钩","横","横","撇","竖弯钩","撇","竖弯钩","点","点","点","点"], image: "熊.mp4", poster: "熊.png", col: 2, row: 2 },
+        { id: "shi2", char: "狮",pinyin: "shī",  english: "LION",      words: ["狮子", "雄狮"], meaning: "狮是草原之王，雄狮有威风凛凛的鬃毛，吼声能传很远。", radical: "犭", strokes: 9,  structure: "左右结构", sentence: "雄狮站在岩石上守护着它的领地。", strokesName: ["撇","弯钩","撇","竖","撇","横","竖","横折钩","竖"], image: "狮.mp4", poster: "狮.jpg", col: 3, row: 2 },
+        { id: "niao", char: "鸟",pinyin: "niǎo",  english: "BIRD",      words: ["小鸟", "飞鸟"], meaning: "鸟有羽毛和翅膀，能在天空中自由飞翔，唱出动听的歌。", radical: "鸟", strokes: 5,  structure: "独体字", sentence: "小鸟在树枝上叽叽喳喳地唱歌。", strokesName: ["撇","横折钩","点","竖折折钩","横"], image: "鸟.mp4", poster: "鸟.jpg", col: 4, row: 2 },
+        { id: "yu2",  char: "鱼",pinyin: "yú",   english: "FISH",       words: ["小鱼", "金鱼"], meaning: "鱼生活在水里，用鳃呼吸，用鳍游泳，摆动尾巴前进。", radical: "鱼", strokes: 8,  structure: "独体字", sentence: "小鱼在清澈的河水里游来游去。", strokesName: ["撇","横撇","竖","横折","横","竖","横","横"], image: "鱼.mp4", poster: "鱼.jpg", col: 5, row: 2 }
     ];
 
     // ========== 奖励图标库 ==========
@@ -1679,6 +1672,32 @@
         setTimeout(() => ripple.remove(), 600);
     }
 
+    // ==================== 设备性能检测（自适应媒体：视频 / 静图） ====================
+    let __lowPerf = null;   // 惰性缓存判定结果，避免重复计算
+    function isLowPerfDevice(){
+        if (__lowPerf !== null) return __lowPerf;
+        let low = false;
+        try {
+            const cores = navigator.hardwareConcurrency || 0;
+            const mem = navigator.deviceMemory || 0;
+            if (cores && cores <= 2) low = true;   // ≤2 核 CPU 判定低端
+            if (mem && mem <= 2) low = true;       // ≤2GB 内存判定低端
+        } catch(e){}
+        __lowPerf = low;
+        return low;
+    }
+    // 视频卡顿自动降级为同名静图（低端设备/网络卡顿时保持画面可见、不卡顿）
+    function degradeToPoster(panel, data, video){
+        if (!panel || panel.dataset.degraded === '1') return;   // 已降级，避免重复
+        panel.dataset.degraded = '1';
+        try { if (video) { video.pause(); video.remove(); } } catch(e){}
+        const poster = data.poster || '';
+        if (poster) {
+            panel.style.backgroundImage = `url('${poster}')`;
+            panel.style.backgroundPosition = 'center center';
+        }
+    }
+
     // ==================== 打开知识卡片弹窗 ====================
     function openModal(data) {
         const modal = document.getElementById('cardModal');
@@ -1686,15 +1705,18 @@
         // 打开卡片时暂停 3D 背景动画，释放 GPU（移动端防卡顿）
         if (window.__threeCtl) window.__threeCtl.stop();
 
-        // 1. 左侧媒体（图片或视频）：按扩展名自动判断
-        //    图片 → background-image 等比覆盖填充；
-        //    视频 → 注入 <video> 全屏填充（autoplay/loop/muted/playsinline，移动端可自动播放），不做内嵌，仅外部引用。
+        // 1. 左侧媒体：按设备性能自适应——低端设备直接显示静图，高端设备播放视频；
+        //    视频运行中若缓冲/停滞（卡顿）则自动降级为同名静图，保持画面可见、不卡顿。
+        //    图片 → background-image 等比覆盖填充；视频 → <video> 全屏填充（autoplay/loop/muted/playsinline）。
         const leftPanel = document.getElementById('modalImage');
         const mediaSrc = data.image || '日.mp4';
+        const posterSrc = data.poster || '';
         const isVideoMedia = /\.(mp4|webm|ogg|mov|m4v)$/i.test(mediaSrc);
         const existingVideo = leftPanel.querySelector('video.modal-media');
         if (existingVideo) existingVideo.remove();
-        if (isVideoMedia) {
+        leftPanel.dataset.degraded = '';   // 每次打开重置降级标记，重新判断视频/静图
+        const useVideo = isVideoMedia && !isLowPerfDevice();
+        if (useVideo) {
             leftPanel.style.backgroundImage = 'none';
             const mv = document.createElement('video');
             mv.className = 'modal-media';
@@ -1710,11 +1732,17 @@
                 if (mv.paused) { const pp = mv.play(); if (pp && pp.catch) pp.catch(() => {}); }
                 else mv.pause();
             });
+            // 卡顿自动降级为同名静图（缓冲/停滞/加载失败时切换到静图）
+            const degrade = () => degradeToPoster(leftPanel, data, mv);
+            mv.addEventListener('waiting', degrade);
+            mv.addEventListener('stalled', degrade);
+            mv.addEventListener('error', degrade);
             const p = mv.play();
             if (p && p.catch) p.catch(() => {});
             leftPanel.insertBefore(mv, leftPanel.firstChild);
         } else {
-            leftPanel.style.backgroundImage = `url('${mediaSrc}')`;
+            // 静图：优先同名静图 poster，无则回退原 mediaSrc
+            leftPanel.style.backgroundImage = `url('${posterSrc || mediaSrc}')`;
             leftPanel.style.backgroundPosition = 'center center';
         }
 
@@ -1840,6 +1868,17 @@
             traceQuizActive = false;
             tracePractice(data);
         };
+        // 重置按钮：立即清空笔迹、重新进入书写模式（静默，不打扰书写）
+        document.getElementById('btn-reset').onclick = (e) => {
+            e.stopPropagation();
+            ACTIVITY_TOKEN++;
+            window.speechSynthesis.cancel();
+            if (traceQuizActive) try { traceWriter.cancelQuiz(); } catch(ex){}
+            traceQuizActive = false;
+            resetTraceWriter(data);   // 清空蓝色笔迹，支持立即重新书写
+            try { baseWriter.showOutline(); baseWriter.hideCharacter(); } catch(e){}
+            enableQuiz(data);         // 立即重新进入书写模式
+        };
 
         // 10. 点击字头区域（拼音）也可触发读音，强化认读反馈
         document.querySelector('.char-header').onclick = (e) => {
@@ -1866,12 +1905,6 @@
             const idx = (order.indexOf(ReadPopupConfig.theme) + 1) % order.length;
             setReadPopupTheme(order[idx]);
         };
-        // 描写引导弹窗「开始练习」按钮：关闭弹窗，宝宝即可点击田字格描红
-        document.getElementById('tgpStart').onclick = (e) => {
-            e.stopPropagation();
-            hideTraceGuidePop();
-        };
-
         // 11. 重置翻转卡片到正面（每次打开都从正面开始）
         const inner = document.getElementById('flipCardInner');
         inner.classList.remove('flipped');
@@ -2695,16 +2728,7 @@
         for (let k = 0; k < chips.length; k++) chips[k].classList.remove('active');
     }
 
-    // ==================== 描写引导弹窗（无空闲自动滚动，仅点击按钮读取/书写时滚动定位） ====================
-
-    // 描写练习引导弹窗：弹出鼓励性提示语，直接引导宝宝动手练习（不做讲解）
-    function showTraceGuidePop(data, total){
-        const pop = document.getElementById('traceGuidePop');
-        const txt = document.getElementById('tgpText');
-        if (!pop || !txt) return;
-        txt.innerHTML = `宝宝真棒呀！🌟<br>我们一起来描一描「<b>${data.char}</b>」字吧～<br>它一共有 <b>${total}</b> 笔，一笔一笔慢慢写，<br>写对了我给你撒花花、发徽章哦！<br>加油，你一定可以的！💪`;
-        pop.classList.add('show');
-    }
+    // 兜底：隐藏描写引导弹窗（v1.15.0 已移除弹窗，此函数保留以兼容旧调用，安全空操作）
     function hideTraceGuidePop(){
         const pop = document.getElementById('traceGuidePop');
         if (pop) pop.classList.remove('show');
@@ -2748,13 +2772,13 @@
                 traceWriter.quiz({
                     // 写到第几笔，就高亮并滚动到对应笔画位置（与讲解同步）
                     onCorrectStroke: (sd) => { if (sd && typeof sd.strokeNum === 'number') hlStroke(sd.strokeNum); },
-                    // 书写不正确或顺序有误：高亮当前笔并语音温柔提醒（节流，避免连续误触反复播报）
+                    // 书写不正确或顺序有误：高亮当前笔并简洁语音提醒（节流，避免连续误触反复播报）
                     onMistake: (sd) => {
                         if (sd && typeof sd.strokeNum === 'number') hlStroke(sd.strokeNum);
                         const now = Date.now();
                         if (now - lastMistakeSpeak > 1800) {
                             lastMistakeSpeak = now;
-                            speakAudio('嗯~ 这一笔好像不太对哦，宝宝别急，我们按笔顺从第一笔开始写就好啦～');
+                            speakAudio('这一笔再试试');
                         }
                     },
                     onComplete: () => {
@@ -2769,24 +2793,20 @@
             } catch(e){ traceQuizActive = false; }
         };
     }
-    // 描红练习（带语音笔顺提示，可反复）：每笔语音完整播完再演示，写对后保留蓝色轨迹。
+    // 描红练习：点击后直接进入书写模式（不弹窗、不逐笔讲解），仅一句简洁语音提示。
     // ACTIVITY_TOKEN：用户点击其它按钮时自增，本循环据此在每笔之间安全退出，互不干扰。
-    // 描写练习：点击后弹出鼓励性引导提示，不讲解、不自动演示，直接引导宝宝动手描红。
     // 保留灰色虚线引导轮廓，宝宝可立即点击田字格开始自由书写（蓝迹持久保留）。
     async function tracePractice(data){
         const myAct = ++ACTIVITY_TOKEN;       // 占用活动令牌，取消任何进行中的描红/朗读
         window.speechSynthesis.cancel();
         resetTraceWriter(data);   // 清掉旧蓝色笔迹，支持反复练习
-        const names = data.strokesName || [];
-        const total = data.strokes || names.length || 0;
+        const total = data.strokes || (data.strokesName || []).length || 0;
         if (myAct !== ACTIVITY_TOKEN) return;
-        // 显示鼓励性引导弹窗（含鼓励语言），直接引导宝宝练习，不做逐笔讲解
-        showTraceGuidePop(data, total);
-        // 保留灰色虚线引导轮廓，方便宝宝对照着写；不自动演示笔顺
+        // 直接进入书写模式（不弹窗、不逐笔讲解）：保留灰色虚线引导轮廓，宝宝可立即描红
         try { baseWriter.showOutline(); baseWriter.hideCharacter(); } catch(e){}
-        enableQuiz(data);   // 直接开启自由书写，宝宝可立即描红
-        // 轻声给一句鼓励（非逐笔讲解过程）
-        if (myAct === ACTIVITY_TOKEN) speakAudio(`宝宝真棒！来描一描「${data.char}」字吧～ 一共${total}笔，慢慢写，你可以的，加油！`);
+        enableQuiz(data);   // 直接开启自由书写
+        // 简洁语音提示（仅一句，不干扰书写）
+        if (myAct === ACTIVITY_TOKEN) speakAudio(`描一描「${data.char}」字`);
     }
 
     // 重置蓝色手写层（清除旧蓝色笔迹、重建 traceWriter，支持反复练习）

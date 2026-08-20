@@ -966,16 +966,23 @@
 
         /* ==================== 响应式适配 ==================== */
         @media (max-width: 1024px) {
+            /* 平板（含横屏 900~1024px）：允许页面滚动，防御内容因安全区/动态视口溢出；桌面(>1024)仍单屏不滚动 */
+            body { overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+            .app-container { margin: auto; }
             .modal-content { width: 92vw; height: 82vh; }
             .flip-face { padding: 64px 22px 56px; }
             .core-display { font-size: 4.6em; }
             .strokes-side { max-width: 128px; max-height: 280px; }
         }
         @media (max-width: 900px) {
-            .app-container { aspect-ratio: auto; width: 94vw; height: 86dvh; max-width: none; max-height: none; }
-            .modal-content { flex-direction: column; height: 90vh; height: 90dvh; max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 16px); overflow-y: auto; }
+            /* 移动端/平板：允许页面上下滚动，内容超出屏幕时可完整查看（桌面端仍单屏不滚动） */
+            body { overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+            .app-container { aspect-ratio: auto; width: 94vw; height: 86dvh; max-width: none; max-height: none; margin: auto; }
+            .modal-content { flex-direction: column; height: 90vh; height: 90dvh; max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 16px); overflow-y: auto; margin: auto; }
             .modal-left { width: 100%; height: 32%; border-right: none; border-bottom: 4px dashed #d4c2a5; padding-top: 8px; }
-            .modal-right { width: 100%; }
+            .modal-right { width: 100%; flex: 1 1 auto; min-height: 0; }
+            /* 弹窗兜底：若内容超出视口，遮罩层可滚动，关闭按钮始终可达 */
+            .modal-overlay { overflow-y: auto; -webkit-overflow-scrolling: touch; }
             .flip-face { padding: 60px 16px 48px; }
             .left-char-display { font-size: 2.6em; }
             .pinyin { font-size: 1.8em; }
@@ -1002,7 +1009,8 @@
 
         /* 竖屏设备（手机/平板竖持）：以高度驱动，让寻宝地图铺满可视区，卡片更大更易点按 */
         @media (orientation: portrait) {
-            .app-container { aspect-ratio: auto; width: 94vw; height: 86dvh; max-width: none; max-height: none; }
+            body { overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+            .app-container { aspect-ratio: auto; width: 94vw; height: 86dvh; max-width: none; max-height: none; margin: auto; }
         }
 
         /* ==================== 加载动画 ==================== */
@@ -1245,7 +1253,7 @@
         { id: "huo",  char: "火", pinyin: "huǒ",  english: "FIRE",      words: ["大火", "篝火"], meaning: "火可以取暖、做饭，但小朋友要远离火源哦！", radical: "火", strokes: 4,  structure: "独体字",   sentence: "篝火温暖了露营的夜晚。", strokesName: ["点","撇","撇","捺"], image: "火.mp4", col: 1, row: 2 },
         { id: "tu",   char: "土", pinyin: "tǔ",   english: "EARTH",     words: ["泥土", "土地"], meaning: "泥土是大地的皮肤，花草树木都生长在土里。", radical: "土", strokes: 3,  structure: "独体字",   sentence: "泥土里钻出了一棵嫩绿的小芽。", strokesName: ["横","竖","横"], image: "土.mp4", col: 2, row: 2 },
         { id: "sha",  char: "沙", pinyin: "shā",  english: "SAND",      words: ["沙子", "沙漠"], meaning: "沙子是细小的石粒，沙滩上有好多好玩的沙子。", radical: "氵", strokes: 7,  structure: "左右结构", sentence: "沙滩上留下了一串小脚印。", strokesName: ["点","点","提","竖","撇","点","撇"], image: "沙.mp4", col: 3, row: 2 },
-        { id: "di",   char: "地", pinyin: "dì",   english: "LAND",      words: ["地球", "草地"], meaning: "大地是我们脚下踩着的土地，也是我们的家园。", radical: "土", strokes: 6,  structure: "左右结构", sentence: "草地上开满了五颜六色的小花。", strokesName: ["横","竖","横","横折钩","竖","竖弯钩"], image: "地.mp4", col: 4, row: 2 }
+        { id: "di",   char: "地", pinyin: "dì",   english: "LAND",      words: ["地球", "草地"], meaning: "大地是我们脚下踩着的土地，也是我们的家园。", radical: "土", strokes: 6,  structure: "左右结构", sentence: "草地上开满了五颜六色的小花。", strokesName: ["横","竖","提","横折钩","竖","竖弯钩"], image: "地.mp4", col: 4, row: 2 }
     ];
 
     // ========== 动物园识字数据（动物王国，资源位于项目根目录） ==========
